@@ -1,6 +1,6 @@
 const std = @import("std");
 
-pub fn build(b: *std.build.Builder) void {
+pub fn build(b: *std.build.Builder) !void {
     var target = b.standardTargetOptions(.{});
     const target_info = try std.zig.system.NativeTargetInfo.detect(b.allocator, target);
     if (target_info.target.os.tag == .linux and target_info.target.abi == .gnu) {
