@@ -3,6 +3,13 @@ const std = @import("std");
 const sqlite = @import("sqlite");
 
 pub fn main() anyerror!void {
+    var gpa = std.heap.GeneralPurposeAllocator(.{}){};
+    defer if (gpa.deinit()) {
+        std.debug.panic("leaks detected", .{});
+    };
+
+    var allocator = gpa.allocator();
+
     var db = try sqlite.Db.init(.{
         .mode = sqlite.Db.Mode{ .Memory = {} },
         .open_flags = .{ .write = true },
@@ -24,12 +31,12 @@ pub fn main() anyerror!void {
         name: []const u8,
     };
 
-    const user_opt = try db.oneAlloc(User, std.testing.allocator, "SELECT id, age, name FROM user WHERE name = $name{[]const u8}", .{}, .{
+    const user_opt = try db.oneAlloc(User, allocator, "SELECT id, age, name FROM user WHERE name = $name{[]const u8}", .{}, .{
         .name = user_name,
     });
     try std.testing.expect(user_opt != null);
     if (user_opt) |user| {
-        defer std.testing.allocator.free(user.name);
+        defer allocator.free(user.name);
 
         try std.testing.expectEqual(@as(usize, 10), user.id);
         try std.testing.expectEqual(@as(u32, 34), user.age);
