@@ -15,7 +15,7 @@ pub fn build(b: *std.build.Builder) !void {
     });
     sqlite.setTarget(target);
     sqlite.setBuildMode(mode);
-    sqlite.addIncludeDir("third_party/zig-sqlite/c");
+    sqlite.addIncludePath("third_party/zig-sqlite/c");
     sqlite.linkLibC();
 
     const exe = b.addExecutable("zig-sqlite-demo", "src/main.zig");
@@ -23,7 +23,7 @@ pub fn build(b: *std.build.Builder) !void {
     exe.setTarget(target);
     exe.setBuildMode(mode);
     exe.linkLibrary(sqlite);
-    exe.addIncludeDir("third_party/zig-sqlite/c");
+    exe.addIncludePath("third_party/zig-sqlite/c");
     exe.addPackagePath("sqlite", "third_party/zig-sqlite/sqlite.zig");
     exe.install();
 
