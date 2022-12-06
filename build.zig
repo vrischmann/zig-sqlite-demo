@@ -19,7 +19,6 @@ pub fn build(b: *std.build.Builder) !void {
     sqlite.linkLibC();
 
     const exe = b.addExecutable("zig-sqlite-demo", "src/main.zig");
-    exe.use_stage1 = true;
     exe.setTarget(target);
     exe.setBuildMode(mode);
     exe.linkLibrary(sqlite);
