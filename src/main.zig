@@ -36,6 +36,8 @@ pub fn main() anyerror!void {
     });
     try std.testing.expect(user_opt != null);
     if (user_opt) |user| {
+        std.debug.print("select user: id={d} age={d} name={s}\n", .{ user.id, user.age, user.name });
+
         defer allocator.free(user.name);
 
         try std.testing.expectEqual(@as(usize, 10), user.id);
