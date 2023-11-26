@@ -3,11 +3,7 @@ const std = @import("std");
 pub fn build(b: *std.build.Builder) !void {
     const use_bundled = b.option(bool, "use_bundled", "Use the bundled SQLite") orelse false;
 
-    var target = b.standardTargetOptions(.{});
-    const target_info = try std.zig.system.NativeTargetInfo.detect(target);
-    if (target_info.target.os.tag == .linux and target_info.target.abi == .gnu) {
-        target.setGnuLibCVersion(2, 28, 0);
-    }
+    const target = b.standardTargetOptions(.{});
     const optimize = b.standardOptimizeOption(.{});
 
     const sqlite = b.dependency("sqlite", .{
