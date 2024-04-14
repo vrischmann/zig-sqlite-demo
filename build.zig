@@ -1,6 +1,6 @@
 const std = @import("std");
 
-pub fn build(b: *std.build.Builder) !void {
+pub fn build(b: *std.Build) !void {
     const use_bundled = b.option(bool, "use_bundled", "Use the bundled SQLite") orelse false;
 
     const target = b.standardTargetOptions(.{});
@@ -18,9 +18,7 @@ pub fn build(b: *std.build.Builder) !void {
         .target = target,
         .optimize = optimize,
     });
-    exe.addModule("sqlite", sqlite.module("sqlite"));
-    exe.addIncludePath(.{ .path = "c" });
-    exe.linkLibrary(sqlite.artifact("sqlite"));
+    exe.root_module.addImport("sqlite", sqlite.module("sqlite"));
     b.installArtifact(exe);
 
     const run_cmd = b.addRunArtifact(exe);
