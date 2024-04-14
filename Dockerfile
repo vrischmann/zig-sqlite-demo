@@ -8,8 +8,7 @@ RUN curl -J -o /tmp/zig.tar.xz $(cat /tmp/zig_master_url)
 RUN tar xJf /tmp/zig.tar.xz
 RUN mv zig-linux-* /usr/local/zig
 
-COPY third_party /app/third_party
-COPY build.zig /app/build.zig
+COPY build.zig build.zig.zon /app/.
 COPY src /app/src
 
 CMD ["/usr/bin/fish"]
