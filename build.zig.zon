@@ -1,11 +1,6 @@
 .{
     .name = "zig-sqlite-demo",
     .version = "0.1.0",
-    .dependencies = .{
-        .sqlite = .{
-            .url = "https://github.com/vrischmann/zig-sqlite/archive/refs/heads/master.zip",
-            .hash = "1220a3ff3c8e2a41fe0fe73e795e0eee4c3882edceef8ef16b0b250c7895709a9192",
-        },
-    },
+    .dependencies = .{},
     .paths = .{"."},
 }

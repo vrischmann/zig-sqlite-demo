@@ -1,16 +1,10 @@
 const std = @import("std");
 
 pub fn build(b: *std.Build) !void {
-    const use_bundled = b.option(bool, "use_bundled", "Use the bundled SQLite") orelse false;
+    // const use_bundled = b.option(bool, "use_bundled", "Use the bundled SQLite") orelse false;
 
     const target = b.standardTargetOptions(.{});
     const optimize = b.standardOptimizeOption(.{});
-
-    const sqlite = b.dependency("sqlite", .{
-        .target = target,
-        .optimize = optimize,
-        .use_bundled = use_bundled,
-    });
 
     const exe = b.addExecutable(.{
         .name = "zig-sqlite-demo",
@@ -18,7 +12,22 @@ pub fn build(b: *std.Build) !void {
         .target = target,
         .optimize = optimize,
     });
-    exe.root_module.addImport("sqlite", sqlite.module("sqlite"));
+
+    const sqlite = b.addModule("sqlite", .{
+        .root_source_file = b.path("third_party/sqlite/sqlite.zig"),
+    });
+    sqlite.addCSourceFiles(.{
+        .files = &[_][]const u8{
+            // "third_party/sqlite/c/sqlite3.c",
+            "third_party/sqlite/c/workaround.c",
+        },
+        .flags = &[_][]const u8{"-std=c99"},
+    });
+    sqlite.addIncludePath(b.path("third_party/sqlite/c"));
+
+    exe.linkLibC();
+    exe.linkSystemLibrary("sqlite3");
+    exe.root_module.addImport("sqlite", sqlite);
     b.installArtifact(exe);
 
     const run_cmd = b.addRunArtifact(exe);
