@@ -1,4 +1,4 @@
-FROM docker.io/library/debian:bullseye-slim
+FROM docker.io/library/debian:bookworm-slim
 
 WORKDIR /app
 RUN apt update && apt install -y fish curl jq
