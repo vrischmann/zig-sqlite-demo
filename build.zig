@@ -1,15 +1,12 @@
 const std = @import("std");
 
 pub fn build(b: *std.Build) !void {
-    const use_bundled = b.option(bool, "use_bundled", "Use the bundled SQLite") orelse false;
-
     const target = b.standardTargetOptions(.{});
     const optimize = b.standardOptimizeOption(.{});
 
     const sqlite = b.dependency("sqlite", .{
         .target = target,
         .optimize = optimize,
-        .use_bundled = use_bundled,
     });
 
     const exe = b.addExecutable(.{
