@@ -3,8 +3,8 @@
     .version = "0.1.0",
     .dependencies = .{
         .sqlite = .{
-            .url = "git+https://github.com/vrischmann/zig-sqlite?ref=master#18c42fb23ee1b02d52cc7999ceb27dcd13e819e1",
-            .hash = "12204ecfb22b7109dd3400cbdae8885e31fc653f33424bf35fe5fa21ceeadc90fcf8",
+            .url = "git+https://github.com/vrischmann/zig-sqlite?ref=master#cbc803e89ffdd033529ee06f869baa52e9f07672",
+            .hash = "1220a6106b248a09f2631212551e1cb78205afc1d069622e19e350a365d8aa8d732e",
         },
     },
     .paths = .{"."},
